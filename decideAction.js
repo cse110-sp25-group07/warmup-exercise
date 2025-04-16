@@ -20,7 +20,7 @@ decideAction(dealer.handValue, {
 *  minStand?: number,           // dealer threshold (blank for player)
 *  decideFn?: ()=>"hit"|"stand" // player callback (blank for dealer)
 * }} options
-* @returns {"hit"|"stand"}     // action to take
+* @returns {"hit"|"stand"}      // action to take
 */
 function decideAction(handValue, options = {}) {
     if (options.decideFn) {
