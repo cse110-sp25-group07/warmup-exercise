@@ -37,7 +37,7 @@ class PlayingCard extends HTMLElement {
           height: 100%;
           position: relative;
           transform-style: preserve-3d;
-          transition: transform 0.6s ease;
+          transition: transform 0.4s ease;
         }
 
         .card-inner.flip {
@@ -51,7 +51,6 @@ class PlayingCard extends HTMLElement {
           backface-visibility: hidden;
           background-size: cover;
           background-position: center;
-          border-radius: 8px;
         }
 
         .front {
