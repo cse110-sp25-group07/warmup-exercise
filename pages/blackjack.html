@@ -11,6 +11,7 @@
     <link rel="icon" type="image/x-icon" href="../assets/images/teamlogo.png" />
     <title>Blackjack Page</title>
   </head>
+  <!-- Layout is Header w/ title, Navbar for each page, and then the game itself -->
   <body>
     <header>
       <h1>Blackjack Page</h1>
@@ -23,5 +24,26 @@
         <li><a href="blackjack.html">Blackjack</a></li>
       </ul>
     </nav>
+
+    <main>
+      <div id="game-container">
+        <section id="dealer-hand" class="hand">
+          <article class="card dummy-card red">
+            <span class="rank">J</span>
+            <span class="suit">♥</span>
+          </article>
+        </section>
+        <section id="player-hand" class="hand">
+          <article class="card dummy-card red">
+            <span class="rank">Q</span>
+            <span class="suit">♥</span>
+          </article>
+        </section>
+        <div id="controls">
+          <button>Hit</button>
+          <button>Stand</button>
+          <button>Shuffle</button>
+      </div>
+    </main>
   </body>
 </html>
