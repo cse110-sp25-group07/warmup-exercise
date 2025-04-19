@@ -9,14 +9,14 @@
     />
     <link rel="stylesheet" href="../styling/styles.css" />
     <link rel="icon" type="image/x-icon" href="../assets/images/teamlogo.png" />
-    <title>Home Page</title>
+    <title>Blackjack Page</title>
   </head>
-
-  <!-- Layout is Header w/ title, Navbar for each page, and then the game selection screen -->
+  <!-- Layout is Header w/ title, Navbar for each page, and then the game itself -->
   <body>
     <header>
-      <h1>Home Page</h1>
+      <h1>Blackjack Page</h1>
     </header>
+    
     <nav>
       <ul>
         <li><a href="index.html">Home</a></li>
@@ -24,17 +24,25 @@
         <li><a href="blackjack.html">Blackjack</a></li>
       </ul>
     </nav>
+
     <main>
-      <div id="game-selection">
-        <h2>Select a Game Mode</h2>
-        <section id="game-button">
-          <a href="card-test.html">
-            <button type="button">Card Test</button>
-          </a>
-          <a href="blackjack.html">
-            <button type="button">Blackjack</button>
-          </a>
+      <div id="game-container">
+        <section id="dealer-hand" class="hand">
+          <article class="card dummy-card red">
+            <span class="rank">J</span>
+            <span class="suit">♥</span>
+          </article>
         </section>
+        <section id="player-hand" class="hand">
+          <article class="card dummy-card red">
+            <span class="rank">Q</span>
+            <span class="suit">♥</span>
+          </article>
+        </section>
+        <div id="controls">
+          <button>Hit</button>
+          <button>Stand</button>
+          <button>Shuffle</button>
       </div>
     </main>
   </body>

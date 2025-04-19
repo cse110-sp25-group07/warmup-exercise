@@ -1,0 +1,200 @@
+/* ---------- RESET ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+h1,
+h2,
+h3 {
+  font-family: "Playfair Display", serif;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: "Inter", sans-serif;
+  background-color: #1b3b2f;
+  color: #fffaf5;
+}
+
+/* ---------- LAYOUT ---------- */
+header {
+  padding-bottom: 20px;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+main {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* ---------- NAV ---------- */
+nav {
+  width: 100vw;
+  padding: 1rem;
+  background-color: #0f241c;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  float: left;
+}
+a {
+  display: block;
+  padding: 10px;
+}
+
+nav a {
+  color: #d9a441;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+
+nav a:hover {
+  color: #fff;
+}
+
+/* Game Base*/
+#game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  border: 2px solid #d9a441;
+  background-color: #0f241c;
+  border-radius: 0.5rem;
+  width: 80vw;
+  max-width: 900px;
+  height: auto;
+  margin: 2rem auto;
+  box-sizing: border-box;
+}
+
+.hand {
+  display: flex;
+  gap: 1rem;
+}
+
+#controls {
+  display: flex;
+  gap: 1rem;
+}
+
+/* CARD CSS FOR JUST TESTING */
+.card {
+  width: 100px;
+  height: 140px;
+  border-radius: 0.5rem;
+  background-color: #fffaf5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  color: black;
+  backface-visibility: hidden;
+  transition: transform 0.6s;
+}
+
+.card.red {
+  color: #b3001b;
+}
+.card.black {
+  color: #000;
+}
+
+
+/* ---------- BUTTONS ---------- */
+button {
+  background-color: #d9a441;
+  color: #1b3b2f;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background-color: #f4c542;
+}
+
+button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+
+/* ---------- MISC ---------- */
+.hidden {
+  display: none !important;
+}
+
+.flex {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.center {
+  text-align: center;
+}
+
+/*Home Page Styling */
+
+#game-selection {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+/* Add spacing below the heading */
+#game-selection h2 {
+  margin-bottom: 2rem;
+}
+
+/*making game buttons spaced apart*/
+#game-button {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+/* formatting the buttons for game selection */
+#game-button button {
+  width: 200px;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background-color: #0f241c;
+  color: #fffaf5;
+  border: 2px solid #d9a441;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+/* cool little button animation */
+#game-button button:hover {
+  background-color: #1c3a2d;
+  transform: scale(1.05);
+}
