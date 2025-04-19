@@ -1,3 +1,4 @@
+import { initBalance, processPayout } from "./balance";
 
 // Vars (prolly contained in a class w/ constructor/initializer)
 var playerHand;
@@ -16,21 +17,30 @@ function startGame() {
 	dealerHand = new Hand();
 
 	// Initialize balance
-	playerBalance = 1000;
+	initBalance = 1000;
 
 	placeBet();
 }
 
+//important these functions from balance.js
+import { setBet, isBetValid, deductBet } from "./balance.js";
+
 // Player's screen switches to placing a bet before round starts
 function placeBet() {
-	// Take input from the player via textfield (playerBet is set)
-	if (playerBet <= 0 || playerBet > playerBalance) {
-		return;
+	//get player's bet input from HTML text field 
+	//if tag for element is 'bet-input'
+	const input = document.getElementById('bet-input').value;
+
+	//store bet amount 
+	setBet(input);
+
+	if(!isBetValid()){
+		return; //exit if the bet is not allowed
 	}
 
-	playerBalance -= playerBet;
+	deductBet(); //deduct from player's balance
 
-	startRound();
+	startRound(); //begin round 
 }
 
 // Player's screen switches to playing/table screen
@@ -49,13 +59,17 @@ function startDealerTurn() {
 	// dealerlogic
 }
 
+import { processPayout, isGameOver, getBalance } from "./balance.js";
+
 // The player has either busted (exceeded hand value 21) or stood
-function endRound() {
+function endRound(outcome) {
+	processPayout(outcome); //win, lose, draw
+	
 	playerHand = [];
 	dealerHand = [];
 
 	// Player loses if they run out of money
-	if (playerBalance <= 0) {
+	if (isGameOver()) {
 		losePlayer();
 	}
 	// Player wins if deck is exhausted?
