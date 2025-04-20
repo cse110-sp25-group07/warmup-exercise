@@ -198,3 +198,24 @@ button:disabled {
   background-color: #1c3a2d;
   transform: scale(1.05);
 }
+
+#card-output {
+  display: none;         
+  flex-wrap: wrap;             /* wrap to next row if too many */
+  justify-content: center;     /* center cards horizontally */
+  gap: 1rem;                   /* space between cards */
+  padding: 1rem;               /* breathing room around the grid */
+  background: rgba(0, 0, 0, 0.1); /* subtle backdrop to highlight cards */
+  border-radius: 8px;          /* rounded corners on the card “tray” */
+}
+
+#card-output playing-card {
+  cursor: pointer;             /* indicates they’re interactive */
+  transition: transform 0.2s ease, filter 0.2s ease;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3)); /* soft shadow */
+}
+
+#card-output playing-card:hover {
+  transform: scale(1.05);      /* slight zoom on hover */
+  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.4));
+}

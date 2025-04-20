@@ -1,6 +1,6 @@
 // IMPORTS: Use Card UI Team's <playing-card> for rendering each card face/back
 import "./components/playing-card.js"; // provided by Card UI Team (PNG-based, Shadow DOM)
-
+import { deck } from "deck.js";
 /**
  * REQUIRE: Deck Logic Team must expose card-deck.js with:
  *   - deck.reset(), deck.shuffle(), deck.drawCard(faceUp), deck.drawCards(count, faceUp),
@@ -17,7 +17,8 @@ import "./components/playing-card.js"; // provided by Card UI Team (PNG-based, S
 class BlackjackGame {
   constructor() {
     // --- UI ELEMENTS (index.html) ---
-    this.deck         = document.getElementById("main-deck");      // <card-deck> element
+    this.deck = deck;
+    this.deckElement         = document.getElementById("main-deck");      // <card-deck> element
     this.playerHand   = document.getElementById("player-hand");    // container for <playing-card>
     this.dealerHand   = document.getElementById("dealer-hand");
     this.playerScore  = document.getElementById("player-score");   // score display
@@ -127,7 +128,7 @@ class BlackjackGame {
 
     const el = document.createElement("playing-card");
     el.setAttribute("suit", card.suit);
-    el.setAttribute("rank", card.rank);
+    el.setAttribute("value", card.value);
     el.setAttribute("face-up", faceUp);
     container.appendChild(el);
   }
@@ -274,9 +275,9 @@ function calculateHandValue(cards) {
     let total = 0;
     let aces  = 0;
     for (const card of cards) {
-        if (card.rank === 'A') aces++;
-        else if (['K','Q','J'].includes(card.rank)) total += 10;
-        else total += parseInt(card.rank, 10);
+        if (card.value === 'A') aces++;
+        else if (['K','Q','J'].includes(card.value)) total += 10;
+        else total += parseInt(card.value, 10);
     }
     for (let i = 0; i < aces; i++) {
         total += (total + 11 <= 21) ? 11 : 1;
