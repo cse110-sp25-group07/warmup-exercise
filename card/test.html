@@ -1,82 +1,401 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Playing Card Test</title>
+  <title>Blackjack Playing Card Component Test</title>
   <style>
     body {
+      margin: 0;
+      padding: 20px;
+      background: #0d6d4f; /* Casino table green */
+      font-family: system-ui, sans-serif;
+      color: white;
+    }
+    
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    /* Control panel with game buttons */
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 30px;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+    }
+    
+    button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      background: #2b2b2b;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    button:hover {
+      background: #3a3a3a;
+    }
+    
+    /* Table layout */
+    .table {
+      position: relative;
+      width: 100%;
+      height: 70vh;
+      border-radius: 15px;
+      background: #0a5a40; /* Darker green for inner table */
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.4);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    
+    /* Card hands styling */
+    .hand {
+      position: absolute;
       display: flex;
       justify-content: center;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      min-height: 100vh;
-      margin: 0;
-      background-color: #f0f0f0;
+      gap: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      min-height: 220px;
+      padding: 10px;
+    }
+    
+    /* Position house at top, player at bottom */
+    #house-hand {
+      top: 50px;
+    }
+    
+    #player-hand {
+      bottom: 50px;
+    }
+    
+    /* Labels for hands */
+    .hand-label {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+    }
+    
+    #house-label {
+      top: 15px;
+    }
+    
+    #player-label {
+      bottom: 15px;
+    }
+    
+    /* Deck position styling */
+    .deck-area {
+      position: absolute;
+      left: 40px;
+      top: 50%;
+      transform: translateY(-50%);
+      text-align: center;
+    }
+    
+    /* Invisible marker used for animation start point */
+    #deck-marker {
+      width: 1px;
+      height: 1px;
+      position: absolute;
+      left: 75px;
+      top: 109px;
+    }
+    
+    /* Deck label */
+    .deck-label {
+      margin-top: 10px;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+    
+    /* Status display area */
+    .status {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 18px;
+      min-height: 25px;
     }
   </style>
 </head>
 <body>
-  <!-- Hearts -->
-  <playing-card rank="2" suit="hearts" face-up="true"></playing-card>
-  <playing-card rank="3" suit="hearts" face-up="true"></playing-card>
-  <playing-card rank="4" suit="hearts" face-up="true"></playing-card>
-  <playing-card rank="5" suit="hearts" face-up="true"></playing-card>
-  <playing-card rank="6" suit="hearts" face-up="true"></playing-card>
-  <playing-card rank="7" suit="hearts" face-up="true"></playing-card>
-  <playing-card rank="8" suit="hearts" face-up="true"></playing-card>
-  <playing-card rank="9" suit="hearts" face-up="true"></playing-card>
-  <playing-card rank="10" suit="hearts" face-up="true"></playing-card>
-  <playing-card rank="jack" suit="hearts" face-up="true"></playing-card>
-  <playing-card rank="queen" suit="hearts" face-up="true"></playing-card>
-  <playing-card rank="king" suit="hearts" face-up="true"></playing-card>
-  <playing-card rank="ace" suit="hearts" face-up="true"></playing-card>
-
-  <!-- Diamonds -->
-  <playing-card rank="2" suit="diamonds" face-up="true"></playing-card>
-  <playing-card rank="3" suit="diamonds" face-up="true"></playing-card>
-  <playing-card rank="4" suit="diamonds" face-up="true"></playing-card>
-  <playing-card rank="5" suit="diamonds" face-up="true"></playing-card>
-  <playing-card rank="6" suit="diamonds" face-up="true"></playing-card>
-  <playing-card rank="7" suit="diamonds" face-up="true"></playing-card>
-  <playing-card rank="8" suit="diamonds" face-up="true"></playing-card>
-  <playing-card rank="9" suit="diamonds" face-up="true"></playing-card>
-  <playing-card rank="10" suit="diamonds" face-up="true"></playing-card>
-  <playing-card rank="jack" suit="diamonds" face-up="true"></playing-card>
-  <playing-card rank="queen" suit="diamonds" face-up="true"></playing-card>
-  <playing-card rank="king" suit="diamonds" face-up="true"></playing-card>
-  <playing-card rank="ace" suit="diamonds" face-up="true"></playing-card>
-
-  <!-- Clubs -->
-  <playing-card rank="2" suit="clubs" face-up="true"></playing-card>
-  <playing-card rank="3" suit="clubs" face-up="true"></playing-card>
-  <playing-card rank="4" suit="clubs" face-up="true"></playing-card>
-  <playing-card rank="5" suit="clubs" face-up="true"></playing-card>
-  <playing-card rank="6" suit="clubs" face-up="true"></playing-card>
-  <playing-card rank="7" suit="clubs" face-up="true"></playing-card>
-  <playing-card rank="8" suit="clubs" face-up="true"></playing-card>
-  <playing-card rank="9" suit="clubs" face-up="true"></playing-card>
-  <playing-card rank="10" suit="clubs" face-up="true"></playing-card>
-  <playing-card rank="jack" suit="clubs" face-up="true"></playing-card>
-  <playing-card rank="queen" suit="clubs" face-up="true"></playing-card>
-  <playing-card rank="king" suit="clubs" face-up="true"></playing-card>
-  <playing-card rank="ace" suit="clubs" face-up="true"></playing-card>
-
-  <!-- Spades -->
-  <playing-card rank="2" suit="spades" face-up="true"></playing-card>
-  <playing-card rank="3" suit="spades" face-up="true"></playing-card>
-  <playing-card rank="4" suit="spades" face-up="true"></playing-card>
-  <playing-card rank="5" suit="spades" face-up="true"></playing-card>
-  <playing-card rank="6" suit="spades" face-up="true"></playing-card>
-  <playing-card rank="7" suit="spades" face-up="true"></playing-card>
-  <playing-card rank="8" suit="spades" face-up="true"></playing-card>
-  <playing-card rank="9" suit="spades" face-up="true"></playing-card>
-  <playing-card rank="10" suit="spades" face-up="true"></playing-card>
-  <playing-card rank="jack" suit="spades" face-up="true"></playing-card>
-  <playing-card rank="queen" suit="spades" face-up="true"></playing-card>
-  <playing-card rank="king" suit="spades" face-up="true"></playing-card>
-  <playing-card rank="ace" suit="spades" face-up="true"></playing-card>
-
+  <h1>Blackjack Card Component Test</h1>
+  
+  <!-- Game control buttons -->
+  <div class="controls">
+    <button id="dealHouseBtn">Deal to House</button>
+    <button id="dealPlayerBtn">Deal to Player</button>
+    <button id="flipHouseBtn">Flip House Card</button>
+    <button id="flipPlayerBtn">Flip Player Card</button>
+    <button id="discardHouseBtn">Discard House Hand</button>
+    <button id="discardPlayerBtn">Discard Player Hand</button>
+    <button id="resetBtn">Reset Game</button>
+  </div>
+  
+  <!-- Main game table -->
+  <div class="table">
+    <!-- House area at the top -->
+    <div id="house-label" class="hand-label">Dealer</div>
+    <div id="house-hand" class="hand"></div>
+    
+    <!-- Player area at the bottom -->
+    <div id="player-label" class="hand-label">Player</div>
+    <div id="player-hand" class="hand"></div>
+    
+    <!-- Deck area on the left -->
+    <div class="deck-area">
+      <!-- Visual representation of the deck -->
+      <playing-card id="deck-visual" rank="ace" suit="spades" face-up="false"></playing-card>
+      <div class="deck-label">Deck</div>
+    </div>
+    
+    <!-- Invisible marker for animations -->
+    <div id="deck-marker"></div>
+  </div>
+  
+  <!-- Status display for messages -->
+  <div id="status" class="status"></div>
+  
+  <!-- Load the card component -->
   <script type="module" src="playing-card.js"></script>
+  
+  <script>
+    /*****************************************************
+     * DOM ELEMENT REFERENCES
+     * Get references to all the key elements we'll need
+     *****************************************************/
+    const dealHouseBtn = document.getElementById('dealHouseBtn');
+    const dealPlayerBtn = document.getElementById('dealPlayerBtn');
+    const flipHouseBtn = document.getElementById('flipHouseBtn');
+    const flipPlayerBtn = document.getElementById('flipPlayerBtn');
+    const discardHouseBtn = document.getElementById('discardHouseBtn');
+    const discardPlayerBtn = document.getElementById('discardPlayerBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const houseHand = document.getElementById('house-hand');
+    const playerHand = document.getElementById('player-hand');
+    const deckMarker = document.getElementById('deck-marker');
+    const statusDisplay = document.getElementById('status');
+    
+    /*****************************************************
+     * CARD DATA AND DECK MANAGEMENT
+     * Setup for simulating a standard 52-card deck
+     *****************************************************/
+    
+    // Define standard card ranks and suits
+    const ranks = ['ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king'];
+    const suits = ['clubs', 'diamonds', 'hearts', 'spades'];
+    
+    // Deck position tracker - keeps track of which card to deal next
+    let deckPosition = 0;
+    
+    /**
+     * Gets the next card in the deck sequence
+     * This simulates drawing a card from the top of the deck
+     * @returns {Object} An object with rank and suit properties
+     */
+    function getNextCard() {
+      // Calculate indices for rank and suit using modulo arithmetic
+      // This cycles through all 52 cards in sequence
+      const rankIndex = deckPosition % 13;  // 13 ranks (A,2-10,J,Q,K)
+      const suitIndex = Math.floor(deckPosition / 13) % 4;  // 4 suits
+      
+      // Increment position for next card
+      deckPosition++;
+      
+      // Return card data as an object
+      return { 
+        rank: ranks[rankIndex], 
+        suit: suits[suitIndex] 
+      };
+    }
+    
+    /**
+     * Creates a new playing card element
+     * @param {string} rank - The card rank (ace, 2-10, jack, queen, king)
+     * @param {string} suit - The card suit (clubs, diamonds, hearts, spades)
+     * @param {boolean} faceUp - Whether the card should be face up initially
+     * @returns {HTMLElement} The created card element
+     */
+    function createCard(rank, suit, faceUp = false) {
+      // Create a new instance of our custom playing-card element
+      const card = document.createElement('playing-card');
+      
+      // Set attributes to configure the card
+      card.setAttribute('rank', rank);
+      card.setAttribute('suit', suit);
+      card.setAttribute('face-up', faceUp.toString());
+      
+      return card;
+    }
+    
+    /*****************************************************
+     * GAME ACTIONS
+     * Functions that handle the main game mechanics
+     *****************************************************/
+    
+    /**
+     * Deals a card to either the house or player hand
+     * @param {string} destination - Where to deal the card ('house' or 'player')
+     * @param {boolean} faceUp - Whether the card should be face up
+     */
+    function dealCard(destination, faceUp = false) {
+      // Get the target hand container
+      const handContainer = destination === 'house' ? houseHand : playerHand;
+      
+      // Get the next card from the deck
+      const { rank, suit } = getNextCard();
+      
+      // Create the card element
+      const card = createCard(rank, suit, faceUp);
+      
+      // Add the card to the appropriate hand
+      handContainer.appendChild(card);
+      
+      // Update status message
+      statusDisplay.textContent = `Dealt ${rank} of ${suit} to ${destination}`;
+      
+      // We need to wait for the next repaint before starting the animation
+      // This ensures the card is in the DOM and positioned before animating
+      requestAnimationFrame(() => {
+        // Trigger the deal-in animation from the deck to the hand
+        card.dealIn(deckMarker);
+      });
+      
+      return card;
+    }
+    
+    /**
+     * Flips the top/last card in the specified hand
+     * @param {string} hand - Which hand to flip a card in ('house' or 'player')
+     */
+    function flipTopCard(hand) {
+      // Get the target hand container
+      const handContainer = hand === 'house' ? houseHand : playerHand;
+      
+      // Get all cards in the hand
+      const cards = handContainer.querySelectorAll('playing-card');
+      
+      // Check if there are any cards to flip
+      if (cards.length > 0) {
+        // Get the last card (rightmost/topmost)
+        const topCard = cards[cards.length - 1];
+        
+        // Check current face-up state
+        const isFaceUp = topCard.getAttribute('face-up') === 'true';
+        
+        // Toggle the face-up attribute (flip the card)
+        topCard.setAttribute('face-up', (!isFaceUp).toString());
+        
+        // Update status
+        statusDisplay.textContent = `Flipped ${hand}'s top card ${isFaceUp ? 'face down' : 'face up'}`;
+      } else {
+        statusDisplay.textContent = `No cards in ${hand}'s hand to flip`;
+      }
+    }
+    
+    /**
+     * Discards all cards from the specified hand
+     * @param {string} hand - Which hand to discard ('house' or 'player')
+     */
+    function discardHand(hand) {
+      // Get the target hand container
+      const handContainer = hand === 'house' ? houseHand : playerHand;
+      
+      // Get all cards in the hand
+      const cards = handContainer.querySelectorAll('playing-card');
+      
+      // Check if there are any cards to discard
+      if (cards.length > 0) {
+        // Update status
+        statusDisplay.textContent = `Discarding ${hand}'s hand`;
+        
+        // Start discard animation for each card
+        cards.forEach(card => card.discard());
+        
+        // Remove cards from DOM after animation completes
+        setTimeout(() => {
+          handContainer.innerHTML = '';
+        }, 300); // Duration matches the animation length
+      } else {
+        statusDisplay.textContent = `No cards in ${hand}'s hand to discard`;
+      }
+    }
+    
+    /**
+     * Resets the entire game state
+     */
+    function resetGame() {
+      // Clear both hands
+      houseHand.innerHTML = '';
+      playerHand.innerHTML = '';
+      
+      // Reset deck position to start a fresh deck
+      deckPosition = 0;
+      
+      // Update status
+      statusDisplay.textContent = 'Game reset. Fresh deck ready.';
+    }
+    
+    /*****************************************************
+     * EVENT LISTENERS
+     * Connect buttons to their actions
+     *****************************************************/
+    
+    // Deal to house (dealer) - face down by default as per blackjack rules
+    dealHouseBtn.addEventListener('click', () => dealCard('house', false));
+    
+    // Deal to player - face up by default as per blackjack rules
+    dealPlayerBtn.addEventListener('click', () => dealCard('player', true));
+    
+    // Flip house card - useful for when dealer reveals hole card
+    flipHouseBtn.addEventListener('click', () => flipTopCard('house'));
+    
+    // Flip player card - usually not needed in blackjack but included for testing
+    flipPlayerBtn.addEventListener('click', () => flipTopCard('player'));
+    
+    // Discard house hand - for end of round
+    discardHouseBtn.addEventListener('click', () => discardHand('house'));
+    
+    // Discard player hand - for end of round
+    discardPlayerBtn.addEventListener('click', () => discardHand('player'));
+    
+    // Reset the game
+    resetBtn.addEventListener('click', resetGame);
+    
+    /*****************************************************
+     * INITIALIZATION
+     * Setup initial state when page loads
+     *****************************************************/
+    window.addEventListener('DOMContentLoaded', () => {
+      // Show initial status message
+      statusDisplay.textContent = 'Blackjack card component test ready. Deal cards to begin.';
+      
+      // Pre-deal a card to both hands to demonstrate usage
+      setTimeout(() => {
+        dealCard('house', false); // Dealer's hole card (face down)
+        setTimeout(() => {
+          dealCard('house', true); // Dealer's up card
+          setTimeout(() => {
+            dealCard('player', true); // Player's first card
+            setTimeout(() => {
+              dealCard('player', true); // Player's second card
+            }, 600);
+          }, 600);
+        }, 600);
+      }, 500);
+    });
+  </script>
 </body>
 </html>
