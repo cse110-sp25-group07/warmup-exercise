@@ -41,6 +41,7 @@ class BlackjackGame {
     this.currentBet   = document.getElementById("current-bet");    // current wager
     this.cardsRemaining = document.getElementById("cards-remaining"); // deck count
     this.betPrompt = document.getElementById("bet-prompt");
+    this.deckMarkerEl = document.getElementById("deck-marker");
     // --- CONTROLS ---
     this.newGameBtn = document.getElementById("new-game-btn");  // UX Team: style via CSS
     this.hitBtn     = document.getElementById("hit-btn");       // disabled until bet placed
@@ -88,7 +89,11 @@ class BlackjackGame {
     this.playerCards = [];
     this.dealerCards = [];
     //players hands are cleared
-    this.clearHands();
+    // …before you clear instantly, animate discard…
+    this.playerHand.querySelectorAll("playing-card").forEach(c => c.discard());
+    this.dealerHand.querySelectorAll("playing-card").forEach(c => c.discard());
+    // then wipe the DOM after the animation finishes (300 ms):
+    setTimeout(() => this.clearHands(), 300);
     this.gameMessage.textContent = "";
     this.updateScores();
 
@@ -174,8 +179,11 @@ class BlackjackGame {
    */
   dealerPlay() {
     // Flip down/up card
-    this.dealerHand.firstChild.setAttribute("face-up", true);
-    this.dealerCards[0].faceUp = true; // makes it so dealer score is correctly updated
+      // reveal hole card with flip animation
+    const holeEl = this.dealerHand.querySelector("playing-card");
+    const inner = holeEl.shadowRoot.querySelector(".card-inner");
+    inner.classList.remove("flip");
+    this.dealerCards[0].faceUp = true;                // keep your model in sync
     this.updateScores();
 
     const action = this.getDealerAction();
@@ -209,8 +217,12 @@ class BlackjackGame {
       case "brain-dead": return "stand";
       case "random":    return Math.random() < 0.5 ? "hit" : "stand";
       case "correct":   
-        if (dealerVal < 17) return "hit";
-        // soft 17: treat A as 11 if <=21
+        const hasAce = this.dealerCards.some(c => c.rank === "A");
+        const isSoft17 = dealerVal === 17 && hasAce;
+        // Hit on anything below 17, or on a soft 17
+        if (dealerVal < 17 || isSoft17) {
+          return "hit";
+        }
         return "stand";
       default: return "stand";
     }
