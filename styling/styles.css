@@ -219,3 +219,22 @@ button:disabled {
   transform: scale(1.05);      /* slight zoom on hover */
   filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.4));
 }
+
+#player-hand playing-card,
+#dealer-hand playing-card {
+  pointer-events: none;
+}
+
+#controls select {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  background-color: #d9a441;
+  color: #1b3b2f;
+  cursor: pointer;
+}
+#controls select:hover {
+  background-color: #f4c542;
+}

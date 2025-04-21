@@ -8,6 +8,9 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../styling/styles.css" />
+    <script type="module" src="./playing-card.js" defer></script>
+    <script src="./deck.js" defer></script>
+    <script type="module" src="./blackjack.js" defer></script>
     <link rel="icon" type="image/x-icon" href="../assets/images/teamlogo.png" />
     <title>Blackjack Page</title>
   </head>
@@ -27,23 +30,34 @@
 
     <main>
       <div id="game-container">
-        <section id="dealer-hand" class="hand">
-          <article class="card dummy-card red">
-            <span class="rank">J</span>
-            <span class="suit">♥</span>
-          </article>
-        </section>
-        <section id="player-hand" class="hand">
-          <article class="card dummy-card red">
-            <span class="rank">Q</span>
-            <span class="suit">♥</span>
-          </article>
-        </section>
+        <div id="status-row">
+          <div>Dealer: <span id="dealer-score">(0)</span></div>
+          <div>Player: <span id="player-score">(0)</span></div>
+          <div>Money: $<span id="player-money">1000</span></div>
+          <div>Bet: $<span id="current-bet">0</span></div>
+          <div>Cards Left: <span id="cards-remaining">52</span></div>
+        </div>
+        <section id="dealer-hand" class="hand"></section>
+        <section id="player-hand" class="hand"></section>
+        <div id="bet-prompt" class="center" style="margin:1rem 0; font-size:1.2rem; color:#ffd700;">
+          Please place a bet to begin
+        </div>
+        <div id="game-message" class="center" style="margin-top:0.5rem;"></div>
         <div id="controls">
-          <button>Hit</button>
-          <button>Stand</button>
-          <button>Shuffle</button>
-      </div>
+          <button id="new-game-btn">New Game</button>
+          <input type="number" id="bet-amount" min="1" placeholder="Bet $" style="width:4rem;" disabled />
+          <button id="place-bet-btn" disabled>Place Bet</button>
+          <button id="hit-btn" disabled>Hit</button>
+          <button id="stand-btn" disabled>Stand</button>
+        </div>
+        <label for="dealer-mode" style="margin-left:1rem; font-weight:600;">
+          Difficulty:
+          <select id="dealer-mode">
+            <option value="brain-dead">Brain Dead</option>
+            <option value="random">Random</option>
+            <option value="correct" selected>Correct</option>
+          </select>
+        </label>
     </main>
   </body>
 </html>
