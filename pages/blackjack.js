@@ -1,5 +1,19 @@
 // IMPORTS: Use Card UI Team's <playing-card> for rendering each card face/back
-import "./components/playing-card.js"; // provided by Card UI Team (PNG-based, Shadow DOM)
+import "./playing-card.js"; // provided by Card UI Team (PNG-based, Shadow DOM)
+
+function createCardEl(card) {
+  const el = document.createElement("playing-card");
+  el.setAttribute("rank",   convertRank(card.rank));
+  el.setAttribute("suit",   card.suit);
+  el.setAttribute("face-up", card.faceUp.toString());
+  return el;
+}
+
+/** same rank conversion as before */
+function convertRank(r) {
+  const map = { A: "ace", J: "jack", Q: "queen", K: "king" };
+  return map[r] || r;
+}
 
 /**
  * REQUIRE: Deck Logic Team must expose card-deck.js with:
@@ -17,7 +31,7 @@ import "./components/playing-card.js"; // provided by Card UI Team (PNG-based, S
 class BlackjackGame {
   constructor() {
     // --- UI ELEMENTS (index.html) ---
-    this.deck         = document.getElementById("main-deck");      // <card-deck> element
+    this.deck = window.deck;
     this.playerHand   = document.getElementById("player-hand");    // container for <playing-card>
     this.dealerHand   = document.getElementById("dealer-hand");
     this.playerScore  = document.getElementById("player-score");   // score display
@@ -26,7 +40,7 @@ class BlackjackGame {
     this.playerMoney  = document.getElementById("player-money");   // bankroll display
     this.currentBet   = document.getElementById("current-bet");    // current wager
     this.cardsRemaining = document.getElementById("cards-remaining"); // deck count
-
+    this.betPrompt = document.getElementById("bet-prompt");
     // --- CONTROLS ---
     this.newGameBtn = document.getElementById("new-game-btn");  // UX Team: style via CSS
     this.hitBtn     = document.getElementById("hit-btn");       // disabled until bet placed
@@ -65,21 +79,25 @@ class BlackjackGame {
       // UX Team: modal/confirm styling override possible
       if (!confirm("Start new game? You will lose current progress.")) return;
     }
-
+    this.betPrompt.style.display = "block";
+    //resets the deck
     this.deck.reset();
+    //shuffles the deck
     this.deck.shuffle();
+    //players hands initialize
     this.playerCards = [];
     this.dealerCards = [];
+    //players hands are cleared
     this.clearHands();
     this.gameMessage.textContent = "";
     this.updateScores();
+
 
     this.hitBtn.disabled = true;
     this.standBtn.disabled = true;
     this.placeBetBtn.disabled = false;
     this.betAmount.disabled = false;
     this.gameInProgress = false;
-
     this.updateUI();
   }
 
@@ -88,13 +106,13 @@ class BlackjackGame {
    * UX Team: invalid input styling or error toast
    */
   placeBet() {
-    const betValue = parseInt(this.betAmount.value, 10);
-    if (isNaN(betValue) || betValue <= 0 || betValue > this.money) {
-      alert("Invalid bet"); // replace with styled error
-      return;
+    const amount = parseInt(this.betAmount.value, 10);
+    if (isNaN(amount) || amount < 1 || amount > this.money) {
+      return alert("Enter a valid bet up to your available money.");
     }
-    this.bet = betValue;
-    this.money -= betValue;
+    
+    this.bet = amount;
+    this.money -= amount;
     this.updateUI();
 
     this.dealInitialCards();
@@ -103,6 +121,7 @@ class BlackjackGame {
     this.standBtn.disabled = false;
     this.placeBetBtn.disabled = true;
     this.betAmount.disabled = true;
+    this.betPrompt.style.display = "none";
   }
 
   /** Deal two cards each (dealer second card face-down) **/
@@ -121,15 +140,17 @@ class BlackjackGame {
    * uses Deck Logic Team’s deck.drawCard(faceUp)
    * uses Card UI Team’s <playing-card>
    */
-  addCardToHand(hand, container, faceUp) {
+  addCardToHand(handArr, containerEl, faceUp) {
     const card = this.deck.drawCard(faceUp);
-    hand.push(card);
+    if (!card) return;
+    handArr.push(card);
 
-    const el = document.createElement("playing-card");
-    el.setAttribute("suit", card.suit);
-    el.setAttribute("rank", card.rank);
-    el.setAttribute("face-up", faceUp);
-    container.appendChild(el);
+    const cardEl = createCardEl(card);
+    containerEl.appendChild(cardEl);
+
+    // Animate from deck marker
+    requestAnimationFrame(() => cardEl.dealIn(this.deckMarkerEl));
+    return cardEl;
   }
 
   // --- PLAYER ACTIONS ---
@@ -154,6 +175,7 @@ class BlackjackGame {
   dealerPlay() {
     // Flip down/up card
     this.dealerHand.firstChild.setAttribute("face-up", true);
+    this.dealerCards[0].faceUp = true; // makes it so dealer score is correctly updated
     this.updateScores();
 
     const action = this.getDealerAction();
@@ -170,6 +192,7 @@ class BlackjackGame {
       }, 1500); // Default timing: 1500
     } else {
       this.determineWinner();
+      
     }
   }
 
@@ -213,6 +236,7 @@ class BlackjackGame {
     else if (p === 21)        this.endGame("Player has Blackjack! Player wins!");
     else if (d === 21) {      
       this.dealerHand.firstChild.setAttribute("face-up", true);
+      this.dealerCards[0].faceUp = true; // makes it so dealer score is correctly updated
       this.updateScores();
       this.endGame("Dealer has Blackjack! Dealer wins!");
     }
@@ -247,9 +271,13 @@ class BlackjackGame {
 
   updateScores() {
     this.playerScore.textContent = `(${this.getHandValue(this.playerCards)})`;
-    this.dealerScore.textContent = this.dealerCards.every(c => c.faceUp)
-      ? `(${this.getHandValue(this.dealerCards)})`
-      : "";
+
+    // Dealer shows only the sum of face-up cards
+    const visibleCards = this.dealerCards.filter(c => c.faceUp);
+    const visibleValue = visibleCards.length
+      ? calculateHandValue(visibleCards)
+      : 0;
+    this.dealerScore.textContent = `(${visibleValue})`;
   }
 
   clearHands() {
@@ -274,9 +302,9 @@ function calculateHandValue(cards) {
     let total = 0;
     let aces  = 0;
     for (const card of cards) {
-        if (card.rank === 'A') aces++;
-        else if (['K','Q','J'].includes(card.rank)) total += 10;
-        else total += parseInt(card.rank, 10);
+      if (card.rank === 'A') aces++;
+      else if (['K','Q','J'].includes(card.rank)) total += 10;
+      else total += parseInt(card.rank, 10);
     }
     for (let i = 0; i < aces; i++) {
         total += (total + 11 <= 21) ? 11 : 1;
@@ -284,4 +312,7 @@ function calculateHandValue(cards) {
     return total;
 }
 
-document.addEventListener("DOMContentLoaded", () => new BlackjackGame());
+document.addEventListener("DOMContentLoaded", () => {
+  const game = new BlackjackGame();
+  game.startNewGame();    // immediately reset & enable bet UI
+});
